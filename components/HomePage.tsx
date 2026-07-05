@@ -4,7 +4,7 @@ import ProjectsSection from "@/components/projectsSection/ProjectsSection";
 
 function HomePage() {
   return (
-    <main>
+    <main className={"flex flex-col gap-32 mb-32"}>
       <HeroSection/>
       <ProjectsSection/>
     </main>

@@ -8,7 +8,7 @@ function HeroSection() {
       <HeroBackground className={"absolute top-0 left-0 h-full w-full -z-10"}/>
       <div
         className="hidden md:block absolute pointer-events-none -z-9 w-3/1 h-25/10 -bottom-50 lg:bottom-0 left-1/2 -translate-x-1/2 bg-[radial-gradient(circle,rgba(26,26,26,0)_0%,rgba(26,26,26,1)_50%)]"/>
-      <div className="w-9/10 xl:w-4/5 mx-auto flex items-center justify-center">
+      <div className="w-9/10 xl:w-85/100 mx-auto flex items-center justify-center">
         <Terminal
           className={"relative z-10 bg-black/50 backdrop-blur-lg border-0 max-w-full lg:max-w-4/5 max-h-[70vh] sm:max-h-fit overflow-hidden w-full"}
           startOnView={false}>
