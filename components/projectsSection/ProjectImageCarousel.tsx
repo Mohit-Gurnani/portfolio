@@ -1,6 +1,6 @@
 'use client';
 
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {createPortal} from 'react-dom';
 import {AnimatePresence, motion} from 'framer-motion';
 import {
@@ -109,8 +109,11 @@ export function ProjectImageCarousel({images}: ProjectImageCarouselProps) {
 										<div className="relative grow flex items-center justify-center overflow-hidden bg-black/30">
 											<CarouselContent className="h-full">
 												{images.map((img, idx) => (
-													<CarouselItem key={idx} className="relative h-full flex items-center justify-center">
+													<CarouselItem key={idx}
+													              className="relative h-full max-h-[70vh] flex items-center justify-center">
 														<img
+															width={10000}
+															height={10000}
 															src={img}
 															alt={`Project screenshot ${idx + 1}`}
 															className="max-h-full max-w-full object-contain rounded-md"

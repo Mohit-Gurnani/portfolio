@@ -1,13 +1,9 @@
 'use client'
 
 import React from 'react';
-import Radar from "@/components/common/Radar";
 import {ProjectsData} from "@/data/Projects.data";
-import {ArrowUpRightIcon, ChevronLeft, ChevronRight, DotIcon} from "lucide-react";
+import {ChevronLeft, ChevronRight, DotIcon} from "lucide-react";
 import {cn, parseNumber} from "@/lib/utils";
-import Link from "next/link";
-import {GitHubIcon} from "@/public/SVGs/SVGs";
-import {ProjectImageCarousel} from "@/components/projectsSection/ProjectImageCarousel";
 
 import {
 	Carousel,
@@ -17,6 +13,7 @@ import {
 	CarouselPrevButton,
 	useCarousel
 } from "@/components/common/carousel";
+import ProjectDetails from "@/components/projectsSection/ProjectDetails";
 
 function ProjectsCarouselHeader() {
 	const {selectedIndex, scrollSnapsCount} = useCarousel();
@@ -73,7 +70,7 @@ function ProjectsCarouselProgress() {
 function ProjectsSection() {
 	return (
 		<section
-			className={"min-h-screen w-9/10 xl:w-85/100 mx-auto flex flex-col gap-5 md:gap-7.5 xl:gap-10"}>
+			className={"w-9/10 xl:w-85/100 mx-auto flex flex-col gap-5 md:gap-7.5 xl:gap-10"}>
 			<div className="flex flex-col gap-3">
 				<h2 className={"font-primary text-6xl text-secondary text-center tracking-[-0.4rem]"}>Projects</h2>
 				<p className={"font-primary text-center text-base text-secondary/70"}>All the projects I&apos;ve thought of,
@@ -86,53 +83,7 @@ function ProjectsSection() {
 				<CarouselContent className="w-full">
 					{ProjectsData.map((project, index) => (
 						<CarouselItem key={index} className="w-full">
-							<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 py-10">
-								<div className="border-r border-secondary/15 flex flex-col gap-7.5 justify-between px-5">
-									<div className="flex flex-col gap-5">
-										<div className="flex flex-col gap-3">
-											<h2 className={"text-2xl text-secondary font-primary font-semibold"}>{project.title}</h2>
-											<p className={"text-tertiary font-primary text-sm"}>{project.subTitle}</p>
-										</div>
-										<p className={"text-secondary/70 font-primary text-base"}>{project.description}</p>
-									</div>
-									<div className="flex flex-row gap-4">
-										{project?.liveLink && (
-											<Link
-												className={"text-tertiary w-full items-center text-sm justify-center focus:outline-0 bg-tertiary/20 rounded-md border border-tertiary transition-shadow duration-300 hover:shadow-[0_0_40px_rgba(34,197,94,0.2)] shadow gap-2 px-4 py-2 flex flex-row"}
-												target="_blank" href={project?.liveLink}
-											>
-												Live Link
-												<ArrowUpRightIcon/>
-											</Link>
-										)}
-										<Link
-											className={"text-secondary w-full items-center text-sm justify-center focus:outline-0 bg-secondary/20 rounded-md border border-secondary transition-shadow duration-300 hover:shadow-[0_0_40px_rgba(244,244,245,0.2)] shadow gap-2 px-4 py-2 flex flex-row"}
-											target="_blank" href={project.repoLink}
-										>
-											<GitHubIcon className={"size-5"}/>
-											GitLab
-											<ArrowUpRightIcon/>
-										</Link>
-									</div>
-								</div>
-								<div className="flex flex-col gap-5 items-center justify-center px-5">
-									<p className={"text-secondary font-primary text-center text-lg"}>Tech Stack</p>
-									<Radar targets={project.techStack} size={335}/>
-									<div
-										className="flex flex-row flex-wrap items-center justify-center bg-secondary/7.5 rounded-md border border-secondary/15 px-4 py-2">
-										{project.techStack.map((stack, idx) => (
-											<div key={idx} className={"text-secondary/70 flex flex-row items-center font-primary"}>
-												<p className={"text-sm"}>{stack.name}</p>
-												<DotIcon
-													className={cn("text-secondary size-10 -m-1.5", idx === project.techStack.length - 1 && "hidden")}/>
-											</div>
-										))}
-									</div>
-								</div>
-								<div className="flex items-center justify-center p-5 xl:p-10 md:col-span-2 xl:col-span-1">
-									<ProjectImageCarousel images={project.images}/>
-								</div>
-							</div>
+							<ProjectDetails project={project}/>
 						</CarouselItem>
 					))}
 				</CarouselContent>

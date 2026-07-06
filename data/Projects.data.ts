@@ -1,18 +1,24 @@
 import {
 	AndroidSdkLogo,
+	ApachePOILogo,
 	AxiosLogo,
 	ChartJsLogo,
+	CucumberLogo,
 	JavaLogo,
 	JWTLogo,
 	KotlinLogo,
 	LaravelLogo,
+	MavenLogo,
+	MySQLLogo,
 	NextJSLogo,
 	OpenWeatherApiLogo,
 	ReactLogo,
 	RedisLogo,
+	SeleniumLogo,
 	StrapiLogo,
 	StripeLogo,
 	TailwindLogo,
+	TestNGLogo,
 	TMDBLogo,
 	TurboRepoLogo,
 	TypeScriptLogo,
@@ -28,7 +34,7 @@ export interface Project {
 	techStack: RadarTarget[];
 	images: string[];
 	liveLink?: string;
-	repoLink: string;
+	repoLink?: string;
 }
 
 export const ProjectsData: Project[] = [
@@ -87,10 +93,9 @@ export const ProjectsData: Project[] = [
 			{name: "Redis", angle: 260, distance: 0.5, content: RedisLogo},
 		],
 		images: [
-			"/projects/microblogging/preview-1.png",
-			"/projects/microblogging/preview-2.png"
+			"/projects/no-img/no-img.png"
 		],
-		repoLink: "https://github.com/mohitgurnani/micro-blogging-platform"
+		repoLink: "https://gitlab.com/mohitgurnani354/micro-blogging"
 	},
 	{
 		title: "Expense Tracker",
@@ -105,10 +110,9 @@ export const ProjectsData: Project[] = [
 			{name: "Axios", angle: 320, distance: 0.65, content: AxiosLogo}
 		],
 		images: [
-			"/projects/expensetracker/preview-1.png",
-			"/projects/expensetracker/preview-2.png"
+			"/projects/no-img/no-img.png",
 		],
-		repoLink: "https://github.com/mohitgurnani/expense-tracker"
+		repoLink: "https://gitlab.com/mohitgurnani3541/expense-tracker"
 	},
 	{
 		title: "Film Fiesta — Movie Discovery App",
@@ -121,11 +125,12 @@ export const ProjectsData: Project[] = [
 			{name: "Vite", angle: 310, distance: 0.3, content: ViteLogo},
 		],
 		images: [
-			"/projects/filmfiesta/preview-1.png",
-			"/projects/filmfiesta/preview-2.png"
+			"/projects/flim-fiesta/home-page.png",
+			"/projects/flim-fiesta/individual-move-page.png",
+			"/projects/flim-fiesta/similar-movies-page.png"
 		],
 		liveLink: "https://mohit-flim-fiesta.netlify.app",
-		repoLink: "https://github.com/mohitgurnani/film-fiesta"
+		repoLink: "https://gitlab.com/mohitgurnani3541/film-fiesta"
 	},
 	{
 		title: "Android Weather App",
@@ -137,10 +142,8 @@ export const ProjectsData: Project[] = [
 			{name: "Android SDK", angle: 250, distance: 0.8, content: AndroidSdkLogo}
 		],
 		images: [
-			"/projects/weatherapp/preview-1.png",
-			"/projects/weatherapp/preview-2.png"
+			"/projects/weather-app/preview-1.png"
 		],
-		repoLink: "https://github.com/mohitgurnani/android-weather-app"
 	},
 	{
 		title: "Notepad Application",
@@ -157,6 +160,52 @@ export const ProjectsData: Project[] = [
 			"/projects/notepad/preview-1.png",
 			"/projects/notepad/preview-2.png"
 		],
-		repoLink: "https://github.com/mohitgurnani/notepad-application"
+	},
+	{
+		title: "Stack Overflow Clone — Q&A Platform",
+		subTitle: "Full-stack developer community portal with moderation and voting mechanics",
+		description: "Designed and built a feature-complete Stack Overflow clone featuring user authentication, thread management, tag categorization, reputation voting (+1/-1 logic with rate limiting), Best Answer marking, and administrative review queues. Implemented views-tracking and relational data caching.",
+		techStack: [
+			{name: "Laravel", angle: 45, distance: 0.5, content: LaravelLogo},
+			{name: "MySQL", angle: 135, distance: 0.6, content: MySQLLogo},
+			{name: "Blade Templates", angle: 225, distance: 0.7},
+			{name: "Eloquent ORM", angle: 315, distance: 0.4}
+		],
+		images: [
+			"/projects/stack-overflow/preview-1.png",
+			"/projects/stack-overflow/preview-2.png",
+			"/projects/stack-overflow/preview-3.png",
+			"/projects/stack-overflow/preview-4.png"
+		],
+		repoLink: "https://gitlab.com/mohitgurnani3541/stack-overflow"
+	},
+	{
+		title: "Google Maps Scraper & Data Harvester",
+		subTitle: "Selenium-based automated crawler with dynamic pagination and Excel reporting",
+		description: "Developed a Selenium automation suite in Java and TestNG to crawl Google Maps for local businesses. Engineered custom JS-based scroll-pagination triggers to load dynamically rendered cards, structured robust click-and-wait interactions to handle stale elements, extracted operational details (hours, website, phone), and compiled them into Excel reports using Apache POI.",
+		techStack: [
+			{name: "Selenium WebDriver", angle: 30, distance: 0.6, content: SeleniumLogo},
+			{name: "TestNG", angle: 110, distance: 0.5, content: TestNGLogo},
+			{name: "Java", angle: 190, distance: 0.4, content: JavaLogo},
+			{name: "Apache POI", angle: 250, distance: 0.75, content: ApachePOILogo},
+			{name: "Maven", angle: 315, distance: 0.3, content: MavenLogo}
+		],
+		images: [
+			"/projects/no-img/no-img.png"
+		]
+	},
+	{
+		title: "ShopVault — BDD Test Automation Suite",
+		subTitle: "Cucumber-based testing framework with PicoContainer DI and parallel execution",
+		description: "Architected a BDD (Behavior-Driven Development) automation suite using Cucumber, Java, and Selenium. Integrated PicoContainer for dependency injection (handling state sharing between steps via ScenarioContext), JavaFaker for synthetic data generation, and TestNG for parallel execution.",
+		techStack: [
+			{name: "Selenium WebDriver", angle: 45, distance: 0.55, content: SeleniumLogo},
+			{name: "Cucumber BDD", angle: 135, distance: 0.7, content: CucumberLogo},
+			{name: "Java", angle: 225, distance: 0.4, content: JavaLogo},
+			{name: "TestNG", angle: 315, distance: 0.6, content: TestNGLogo},
+		],
+		images: [
+			"/projects/no-img/no-img.png"
+		]
 	}
 ]
