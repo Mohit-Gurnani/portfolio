@@ -112,6 +112,7 @@ interface TypingAnimationProps extends Omit<MotionProps, "children"> {
   delay?: number
   as?: MotionElementType
   startOnView?: boolean
+  onComplete?: () => void
 }
 
 export const TypingAnimation = ({
@@ -121,6 +122,7 @@ export const TypingAnimation = ({
                                   delay = 0,
                                   as: Component = "span",
                                   startOnView = true,
+                                  onComplete,
                                   ...props
                                 }: TypingAnimationProps) => {
   if (typeof children !== "string") {
@@ -181,8 +183,14 @@ export const TypingAnimation = ({
     itemIndex,
   ])
 
+  const onCompleteRef = useRef(onComplete)
+  useEffect(() => {
+    onCompleteRef.current = onComplete
+  }, [onComplete])
+
   useEffect(() => {
     let typingEffect: ReturnType<typeof setInterval> | null = null
+    let completed = false
 
     if (started) {
       let i = 0
@@ -194,10 +202,14 @@ export const TypingAnimation = ({
           if (typingEffect !== null) {
             clearInterval(typingEffect)
           }
-          const completeItem = sequenceCompleteItemRef.current
-          const currentItemIndex = sequenceItemIndexRef.current
-          if (completeItem && currentItemIndex !== null) {
-            completeItem(currentItemIndex)
+          if (!completed) {
+            completed = true
+            const completeItem = sequenceCompleteItemRef.current
+            const currentItemIndex = sequenceItemIndexRef.current
+            if (completeItem && currentItemIndex !== null) {
+              completeItem(currentItemIndex)
+            }
+            onCompleteRef.current?.()
           }
         }
       }, duration)
