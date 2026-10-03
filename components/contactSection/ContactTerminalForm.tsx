@@ -3,6 +3,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {TypingAnimation} from '@/components/common/Terminal';
 import ContactFieldLine from '@/components/contactSection/ContactFieldLine';
+import {useContactSubmit} from '@/hooks/useContactSubmit';
 import {
 	CONFIRM_PATTERN,
 	CONTACT_FIELDS,
@@ -33,6 +34,7 @@ const INITIAL_VALUES: FormValues = {
 };
 
 function ContactTerminalForm({started, reduceMotion}: ContactTerminalFormProps) {
+	const {submitContact, isSubmitting} = useContactSubmit();
 	const [step, setStep] = useState<Step | null>(null);
 	const [values, setValues] = useState<FormValues>(INITIAL_VALUES);
 	const [errors, setErrors] = useState<Partial<Record<ContactFieldKey, string>>>(
@@ -51,6 +53,7 @@ function ContactTerminalForm({started, reduceMotion}: ContactTerminalFormProps) 
 	}, []);
 
 	const setValue = (key: ContactFieldKey, value: string) => {
+		if (isSubmitting) return;
 		setValues((prev) => ({...prev, [key]: value}));
 		setErrors((prev) => {
 			if (!prev[key]) return prev;
@@ -90,7 +93,9 @@ function ContactTerminalForm({started, reduceMotion}: ContactTerminalFormProps) 
 		}
 	};
 
-	const submitField = (key: ContactFieldKey) => {
+	const submitField = async (key: ContactFieldKey) => {
+		if (isSubmitting) return;
+
 		const error = validateField(key, values[key]);
 		if (error) {
 			setErrors((prev) => ({...prev, [key]: error}));
@@ -106,13 +111,35 @@ function ContactTerminalForm({started, reduceMotion}: ContactTerminalFormProps) 
 				setStep('message');
 				return;
 			}
+
+			const payload = {
+				name: values.name.trim(),
+				email: values.email.trim(),
+				message: values.message.trim(),
+			};
+
 			setValues((prev) => ({
 				...prev,
-				name: prev.name.trim(),
-				email: prev.email.trim(),
-				message: prev.message.trim(),
+				...payload,
 				confirm: prev.confirm.trim(),
 			}));
+			setErrors((prev) => {
+				const next = {...prev};
+				delete next.confirm;
+				return next;
+			});
+
+			const result = await submitContact(payload);
+			if (!result.ok) {
+				setErrors((prev) => ({
+					...prev,
+					confirm: result.error || 'error: failed to send',
+				}));
+				setValues((prev) => ({...prev, confirm: ''}));
+				setLabelReady(true);
+				return;
+			}
+
 			setLabelReady(false);
 			setStep('success');
 			return;
@@ -136,6 +163,7 @@ function ContactTerminalForm({started, reduceMotion}: ContactTerminalFormProps) 
 				const isPast =
 					isSuccess || (stepIndex >= 0 && index < stepIndex);
 				const isActive = step === field.key;
+				const locked = isPast || (isActive && isSubmitting);
 
 				if (!isPast && !isActive) return null;
 
@@ -143,14 +171,20 @@ function ContactTerminalForm({started, reduceMotion}: ContactTerminalFormProps) 
 					<ContactFieldLine
 						key={field.key}
 						label={field.label}
-						value={values[field.key]}
+						value={
+							field.key === 'confirm' && isSubmitting
+								? 'sending...'
+								: values[field.key]
+						}
 						onChange={(v) => setValue(field.key, v)}
-						onSubmit={() => submitField(field.key)}
+						onSubmit={() => {
+							void submitField(field.key);
+						}}
 						error={errors[field.key]}
 						errorId={`contact-error-${field.key}`}
 						multiline={field.multiline}
 						stacked={field.stacked}
-						locked={isPast}
+						locked={locked}
 						active={isActive}
 						labelReady={isPast ? true : labelReady || reduceMotion}
 						reduceMotion={reduceMotion}
