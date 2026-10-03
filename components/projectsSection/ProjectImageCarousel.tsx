@@ -111,7 +111,7 @@ export function ProjectImageCarousel({images}: ProjectImageCarouselProps) {
 												{images.map((img, idx) => (
 													<CarouselItem key={idx}
 													              className="relative h-full max-h-[70vh] flex items-center justify-center">
-														<img
+														<Image
 															width={10000}
 															height={10000}
 															src={img}
