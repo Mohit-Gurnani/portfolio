@@ -238,6 +238,7 @@ interface TerminalProps {
   className?: string
   sequence?: boolean
   startOnView?: boolean
+  headerAction?: React.ReactNode
 }
 
 export const Terminal = ({
@@ -245,6 +246,7 @@ export const Terminal = ({
                            className,
                            sequence = true,
                            startOnView = true,
+                           headerAction,
                          }: TerminalProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const isInView = useInView(containerRef as React.RefObject<Element>, {
@@ -284,12 +286,13 @@ export const Terminal = ({
         className
       )}
     >
-      <div className="flex flex-col gap-y-2 border-b border-[#6a6a6a] p-4 flex-shrink-0">
+      <div className="flex flex-row items-center justify-between border-b border-[#6a6a6a] p-4 flex-shrink-0">
         <div className="flex flex-row gap-x-2">
           <div className="size-3 rounded-full bg-red-500"></div>
           <div className="size-3 rounded-full bg-yellow-500"></div>
           <div className="size-3 rounded-full bg-green-500"></div>
         </div>
+        {headerAction && <div className="flex items-center">{headerAction}</div>}
       </div>
       <pre className="p-4 flex-1 min-h-0 overflow-y-auto terminal-scrollbar">
         <code className="grid gap-y-1">{wrappedChildren}</code>
